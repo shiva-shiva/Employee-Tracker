@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
 const cTable = require('console.table');
+var figlet = require('figlet');
 
 const db = require('./app/connection')('EmployeeTrackerDB','shivamysql1364')
 
@@ -44,7 +45,7 @@ async function init(){
 async function viewDepartment(){
     let choiceList = await db.query("select * from department");
     console.table('DEPARTMENT', choiceList);
-
+    init()
 }
 async function viewRoles(){
     let choiceList = await db.query("select * from  role");
@@ -107,6 +108,15 @@ async function AddEmployees(){
    init()
 }
 
-
-
-init()
+async function start(){
+    figlet('Employee Tracker', function(err, data) {
+        if (err) {
+            console.log('Something went wrong...');
+            console.dir(err);
+            return;
+        }
+        console.log(data)
+        init()
+    });
+}
+start()
