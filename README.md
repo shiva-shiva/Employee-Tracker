@@ -45,7 +45,7 @@ To run The application, first run npm install in order to install the following 
 ## 💻usage
 *Instructions and examples for use:*</br>
 
- When you run node index.js, the application uses the inquirer package to prompt you in the command line with a series of questions about your company's employees.the application will generate a table of contents from the data base based on your responses to the Inquirer prompts.
+ When you run node index.js, the application uses the inquirer package to prompt you in the command line with a series of questions about your company's employees. the application will generate a table of contents from the database based on your responses to the Inquirer prompts.
 
 
 ## Tool & Resources
