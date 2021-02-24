@@ -50,6 +50,9 @@ async function init() {
         case "Delete roles":
             DeleteRole()
             break;
+        case "Update Roles":
+            UpdateRoles()
+        break;
     }
 }
 async function viewDepartment() {
@@ -63,11 +66,6 @@ async function viewRoles() {
     init()
 }
 async function viewEmployees() {
-    let choiceList = await db.query("select * from employee");
-    console.table('EMPLOYEE', choiceList);
-    init()
-}
-async function viewEmployeesByManager() {
     let choiceList = await db.query("select * from employee");
     console.table('EMPLOYEE', choiceList);
     init()
@@ -121,7 +119,8 @@ async function AddEmployees() {
     console.table('ADD EMPLOYEE', addEmployees);
     init()
 }
-async function UpdateEmployeeRoles() {
+async function UpdateRoles() {
+    
     let roles = await db.query('SELECT id, title FROM role');
     let departments = await db.query('SELECT id, name FROM department');
     const answers = await inquirer.prompt([
@@ -135,6 +134,24 @@ async function UpdateEmployeeRoles() {
     console.log("\x1b[32m", `${answers.roleName} was updated.`);
     init();
 }
+
+async function UpdateEmployeeRoles() {
+    let employee = await db.query('SELECT * FROM employee');
+    let roles = await db.query('SELECT id, title FROM role');
+    //let departments = await db.query('SELECT id, name FROM department');
+    const answers = await inquirer.prompt([
+        { name: "Name", type: "input", message: "Enter first name:"},
+        { name: "family", type: "input", message: "Enter family name:" },
+        { name: "role", type: "list", message: "Choose the role:", choices: roles.map(obj => obj.title) }
+    ])
+    let roleID = roles.find(obj => obj.title === answers.role).id
+    db.query("UPDATE employee SET role_id=? WHERE first_name=? and last_name=?", [roleID, answers.Name, answers.family]);
+    console.log("\x1b[32m", `${answers.Name} ${answers.family} role was updated to ${answers.role} .`);
+    init();
+}
+
+
+
 
 async function DeleteDepartments() {
     let departments = await db.query('SELECT id, name FROM department');
