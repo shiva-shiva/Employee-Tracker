@@ -12,7 +12,7 @@ async function init() {
             type: "list",
             message: "what would you like to do?",
             choices: ["Add departments", "Add roles", "Add employees",
-                "View departments", "View roles", "View employees", "Update employee roles", "Delete departments", "Delete roles", "Delete employees"]
+                "View departments", "View roles", "View employees", "Update employee roles", "Delete departments", "Delete roles", "Delete employees","Update Roles"]
         }
     ])
 
@@ -136,7 +136,6 @@ async function UpdateRoles() {
 }
 
 async function UpdateEmployeeRoles() {
-    let employee = await db.query('SELECT * FROM employee');
     let roles = await db.query('SELECT id, title FROM role');
     //let departments = await db.query('SELECT id, name FROM department');
     const answers = await inquirer.prompt([
