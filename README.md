@@ -62,8 +62,7 @@ To run The application, first run npm install in order to install the following 
     2-console.table - Used to print MySQL into tables to the console.
 
     3-mysql - Used to connect to the MySQL database and perform queries
-
-    4-promise-mysql - Used to create promises from MySQL queries
+    
 
 ## 🤝Contributing
 *Contributions, issues and feature requests are welcome.*</br>
