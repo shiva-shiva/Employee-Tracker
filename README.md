@@ -49,14 +49,20 @@ To run The application, first run npm install in order to install the following 
 
 
 ## Tool & Resources
+
     Node.js - JavaScript runtime environment
+
     MySQLWorkbench - Visual database design tool
 
 
 ## Dependencies
+
     1-inquirer - For the CLI user interface. This will prompt user within the CLI for employee information.
+
     2-console.table - Used to print MySQL into tables to the console.
+
     3-mysql - Used to connect to the MySQL database and perform queries
+
     4-promise-mysql - Used to create promises from MySQL queries
 
 ## 🤝Contributing
