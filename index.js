@@ -137,7 +137,6 @@ async function UpdateRoles() {
 
 async function UpdateEmployeeRoles() {
     let roles = await db.query('SELECT id, title FROM role');
-    //let departments = await db.query('SELECT id, name FROM department');
     const answers = await inquirer.prompt([
         { name: "Name", type: "input", message: "Enter first name:"},
         { name: "family", type: "input", message: "Enter family name:" },
