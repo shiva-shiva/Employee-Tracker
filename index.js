@@ -115,10 +115,11 @@ async function AddEmployees(){
    ])
    let roleId = choiceList.find(obj => obj.title === answers.role).id
    let managerId = managers.find(obj => obj.Manager === answers.manager).id
-   await db.query("insert into employee(`first_name`,`last_name`, `role_id`,`manager_id` )value (?,?,?,?)",[answers.firstName.trim(), answers.lastName.trim(), roleId, managerId]);
+   console.log(roleId);
+   console.log(managerId);
+   await db.query("insert into employee(`first_name`,`last_name`, `role_id`,`manager_id` ) value (?,?,?,?)",[answers.firstName.trim(), answers.lastName.trim(), roleId, managerId]);
    console.table( `${answers.firstName} was added to the employee database!`);
    let addEmployees = await db.query("select * from employee");
-   
    console.table('ADD EMPLOYEE',addEmployees);
    init()
 }
@@ -155,7 +156,11 @@ async function DeleteEmployee() {
         { name: "employeeName",type: "list", message: " which employee would you like to remove?", choices: employees.map(obj => obj.name)}
     ])
     let deleteEmployee = employees.find(obj => obj.name === answers.employeeName).id;
-            db.query("DELETE FROM employee WHERE id=?", deleteEmployee);
+    const data = await db.query(`select id from employee where manager_id = ${deleteEmployee}`)
+    for (let d in data ){
+        console.log(d.id)
+    }
+     db.query("DELETE FROM employee WHERE id=?", deleteEmployee);
             console.log("\x1b[32m", `${answers.employeeName} was removed`);
             init()
 };
