@@ -157,9 +157,6 @@ async function DeleteEmployee() {
     ])
     let deleteEmployee = employees.find(obj => obj.name === answers.employeeName).id;
     const data = await db.query(`select id from employee where manager_id = ${deleteEmployee}`)
-    for (let d in data ){
-        console.log(d.id)
-    }
      db.query("DELETE FROM employee WHERE id=?", deleteEmployee);
             console.log("\x1b[32m", `${answers.employeeName} was removed`);
             init()
