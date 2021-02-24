@@ -34,12 +34,26 @@ async function init(){
                     AddDepartments()
             break;
             case "Add roles":
-                    Addroles()
+                 Addroles()
             break;     
             case "Add employees":
-                AddEmployees()
+                 AddEmployees()
             break;
-        
+            case "Update employee roles":
+                UpdateEmployeeRoles()
+            break;
+            case "Delete departments":
+                DeleteDepartments()
+            break;
+            case "Delete departments":
+                DeleteDepartments()
+            break;
+            case "Delete employees":
+                DeleteEmployee()
+            break;
+            case "Delete roles":
+                DeleteRole()
+            break;
     }
 }
 async function viewDepartment(){
@@ -104,9 +118,58 @@ async function AddEmployees(){
    await db.query("insert into employee(`first_name`,`last_name`, `role_id`,`manager_id` )value (?,?,?,?)",[answers.firstName.trim(), answers.lastName.trim(), roleId, managerId]);
    console.table( `${answers.firstName} was added to the employee database!`);
    let addEmployees = await db.query("select * from employee");
+   
    console.table('ADD EMPLOYEE',addEmployees);
    init()
 }
+async function UpdateEmployeeRoles(){
+        let roles = await db.query('SELECT id, title FROM role');
+        let departments = await db.query('SELECT id, name FROM department');
+        const answers =await inquirer.prompt([ 
+            { name: "roleName", type: "list", message: "Update which role?", choices: roles.map(obj => obj.title)},
+            { name: "salaryNum", type: "input", message: "Enter role's salary:"},
+            { name: "roleDepartment", type: "list", message: "Choose the role's department:", choices: departments.map(obj => obj.name)}
+        ])
+        let depID = departments.find(obj => obj.name === answers.roleDepartment).id
+        let roleID = roles.find(obj => obj.title === answers.roleName).id
+        db.query("UPDATE role SET title=?, salary=?, department_id=? WHERE id=?", [answers.roleName, answers.salaryNum, depID, roleID]);
+        console.log("\x1b[32m", `${answers.roleName} was updated.`);
+        init();
+}
+ 
+async function DeleteDepartments(){
+    let departments = await db.query('SELECT id, name FROM department');
+    const answers = await inquirer.prompt([
+        {name:"depName", type:"list", message:"Select Department" , choices: departments.map(obj => obj.name)}
+    ])
+    let depId = departments.find(obj => obj.name === answers.depName).id
+    db.query("DELETE FROM department WHERE id=?", depId);
+    console.log("\x1b[32m", `${answers.depName} was delete.`);
+    let department = await db.query("select * from department");
+    console.table("\n",'DEPARTMENT',department);
+    init()
+}
+async function DeleteEmployee() {
+    let employees = await db.query('SELECT id, CONCAT(first_name, " ", last_name) AS name FROM employee');
+    const answers = await inquirer.prompt([
+        { name: "employeeName",type: "list", message: " which employee would you like to remove?", choices: employees.map(obj => obj.name)}
+    ])
+    let deleteEmployee = employees.find(obj => obj.name === answers.employeeName).id;
+            db.query("DELETE FROM employee WHERE id=?", deleteEmployee);
+            console.log("\x1b[32m", `${answers.employeeName} was removed`);
+            init()
+};
+async function DeleteRole() {
+    let roles = await db.query('SELECT id, title FROM role');
+    const answers = await  inquirer.prompt([
+        {  name: "roleName", type: "list", message: "Remove which role?", choices: roles.map(obj => obj.title)}
+    ])
+    let noMoreRole = roles.find(obj => obj.title === answers.roleName);
+    db.query("DELETE FROM role WHERE id=?", noMoreRole.id);
+    console.log("\x1b[32m", `${answers.roleName} was removed.`);
+    init()
+};
+
 
 async function start(){
     figlet('Employee Tracker', function(err, data) {
@@ -115,7 +178,7 @@ async function start(){
             console.dir(err);
             return;
         }
-        console.log(data)
+        console.log(`\n\n${data}\n\n\n`)
         init()
     });
 }
