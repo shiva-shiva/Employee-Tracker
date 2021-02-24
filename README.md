@@ -23,7 +23,7 @@ The demo of this command-line application can be found [here](https://drive.goog
  
 ## ✨Demo
 
-![Demo](./src/readme.gif)
+![Demo](./asset/employee.gif)
 
  ## Table of Contents
 * [Description](#Description)
